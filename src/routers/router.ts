@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import wrapAsync from '../utils/wrappers';
-import GroupService from '../group/group.service';
 import config from '../config';
 import { IGroup, User } from '../group/group.interface';
+import GroupService from '../group/group.service';
 import UserService from '../user/user.service';
+import wrapAsync from '../utils/wrappers';
 
 const router = Router();
 

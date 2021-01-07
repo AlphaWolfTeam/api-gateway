@@ -1,5 +1,5 @@
-import { Response } from 'express';
 import { AxiosResponse } from 'axios';
+import { Response } from 'express';
 
 /**
  * returns weather an http status is in the range of 2XX

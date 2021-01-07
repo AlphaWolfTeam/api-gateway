@@ -1,16 +1,13 @@
-import * as http from 'http';
-import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import * as helmet from 'helmet';
-import * as logger from 'morgan';
-
 import { once } from 'events';
-import errorMiddleware from './utils/error.middleware';
-// import GroupRouter from './group/group.router';
-
-import router from './routers/router';
-import proxyRouter from './routers/proxyRouter';
+import * as express from 'express';
+import * as helmet from 'helmet';
+import * as http from 'http';
+import * as logger from 'morgan';
 import userMiddleware from './middlewares/user.middleware';
+import proxyRouter from './routers/proxyRouter';
+import router from './routers/router';
+import errorMiddleware from './utils/error.middleware';
 
 export default class Server {
   app: express.Application;

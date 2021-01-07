@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
-import * as express from 'express';
 import { AxiosError } from 'axios';
+import * as express from 'express';
 
 export default (error: any, _req: express.Request, res: express.Response, next: express.NextFunction) => {
   if (error?.isAxiosError) {
