@@ -11,22 +11,26 @@ services:
       PORT: 8000
       USER_SERVICE_URL: http://user-service:8000/
       GROUP_SERVICE_URL: http://group-service:8000/
+      ELASTIC_APM_ACTIVE: "true"
+      ELASTIC_APM_SERVER_URL: "http://apm:8200"
     ports:
       - 8000:8000
 
 
   user-service:
-    image: friends-user-service:latest
+    image: friends-user-service:apm
     depends_on:
       - outgoing-proxy-service
     environment:
       PORT: 8000
       KARTOFFEL_URL: http://outgoing-proxy-service:8000/kartoffel
+      ELASTIC_APM_ACTIVE: "true"
+      ELASTIC_APM_SERVER_URL: "http://apm:8200"
     ports:
       - 8001:8000
 
   group-service:
-    image: friends-group-service
+    image: friends-group-service:apm
     depends_on:
       - mongo
     environment:
@@ -34,6 +38,8 @@ services:
       MONGO_URI: mongodb://mongo:27017/devDB
       MONGO_FEATURE_COLLECTION_NAME: groups
       USER_HEADER: X-User-ID
+      ELASTIC_APM_ACTIVE: "true"
+      ELASTIC_APM_SERVER_URL: "http://apm:8200"
     ports:
       - 8002:8000
 
@@ -75,3 +81,36 @@ services:
       INCOMING_SERVICES: '[{"target":"http://friends-api:8000","audience":"${FRIENDS_API_AUDIENCE_ID}","useBearerToken":true,"routes":[{"route":"/api/*","method":"get","allowedScopes":["read"],"useAuthentication":true},{"route":"/api/*","method":"all","allowedScopes":["write"],"useAuthentication":true},{"route":"/*","method":"get","useAuthentication":false}]}]'
     ports:
       - 8004:8000
+
+  elasticsearch:
+    image: "docker.elastic.co/elasticsearch/elasticsearch:7.5.0"
+    environment:
+      - discovery.type=single-node
+    container_name: elasticsearch
+    ports:
+      - "9200:9200"
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - "-f"
+        - "http://localhost:9200"
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+  kibana:
+    image: "docker.elastic.co/kibana/kibana:7.5.0"
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+
+  apm:
+    image: "docker.elastic.co/apm/apm-server:7.5.0"
+    container_name: apm
+    ports:
+      - "8200:8200"
+    depends_on:
+      - elasticsearch

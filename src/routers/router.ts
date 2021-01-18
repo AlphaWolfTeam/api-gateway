@@ -3,7 +3,7 @@ import config from '../config';
 import { IGroup, User } from '../group/group.interface';
 import GroupService from '../group/group.service';
 import UserService from '../user/user.service';
-import wrapAsync from '../utils/wrappers';
+import { wrapAsync } from '../utils/apm';
 
 const router = Router();
 
