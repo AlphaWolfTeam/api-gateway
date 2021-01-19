@@ -27,7 +27,7 @@ router.get('/groups/:id', wrapAsync(async (req, res) => {
     }
   }));
   res
-    .status(isPartialContent ? 200 : 206)
+    .status(isPartialContent ? 206 : 200)
     .send({ ...group, users: populatedUsers });
 }));
 
