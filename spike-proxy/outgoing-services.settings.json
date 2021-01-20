@@ -1,0 +1,10 @@
+[
+  {
+    "route": "/kartoffel/*",
+    "pathRewrite": {
+      "^/kartoffel": ""
+    },
+    "target": "${KARTOFFEL_URL}",
+    "audience": "kartoffel"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "target": "http://friends-api:8000",
+    "audience": "${FRIENDS_API_AUDIENCE_ID}",
+    "useBearerToken": true,
+    "routes": [
+      {
+        "route": "/api/*",
+        "method": "get",
+        "allowedScopes": [
+          "read"
+        ],
+        "useAuthentication": true
+      },
+      {
+        "route": "/api/*",
+        "method": "all",
+        "allowedScopes": [
+          "write"
+        ],
+        "useAuthentication": true
+      },
+      {
+        "route": "/*",
+        "method": "get",
+        "useAuthentication": false
+      }
+    ]
+  }
+]
