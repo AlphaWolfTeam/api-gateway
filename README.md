@@ -20,7 +20,7 @@ The is enforced by using [Spike Proxy Service (Incoming)](https://gitlab.com/yes
 | PATCH  | /groups/:id/users:id    | Update user role in group | **Yes**                                | write | [body params](#update-user)            |
 | DELETE | /groups/:id/users:id    | Remove user from group    | **Yes**                                | write |                                        |
 | GET    | /users                  | Find user by partial name | No                                     | read  | [query string params](#find-user)      |
-| GET    | /users/:id              | Get user by ID            | **Yes**                                | read  |                                        |
+| GET    | /users/:id              | Get user by ID (up to 20) | No                                     | read  |                                        |
 | GET    | /users/:id/groups       | Get groups of user        | Sometimes                              | read  |                                        |
 
 ## Roles and Permissions
