@@ -1,6 +1,5 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-unused-vars */
 import * as apm from 'elastic-apm-node';
 import { Request, RequestHandler, Response } from 'express';
 import * as http from 'http';

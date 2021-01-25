@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-unused-vars */
 import * as apm from 'elastic-apm-node';
 import { NextFunction, Request, Response } from 'express';
 import config from '../config';

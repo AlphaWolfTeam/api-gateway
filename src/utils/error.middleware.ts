@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { AxiosError } from 'axios';
 import * as apm from 'elastic-apm-node';
 import * as express from 'express';
