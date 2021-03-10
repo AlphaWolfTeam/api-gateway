@@ -18,7 +18,7 @@ services:
 
 
   user-service:
-    image: friends-user-service:apm
+    image: friends-user-service:latest
     depends_on:
       - outgoing-proxy-service
     environment:
