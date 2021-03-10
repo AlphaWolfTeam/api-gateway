@@ -30,7 +30,7 @@ services:
       - 8001:8000
 
   group-service:
-    image: friends-group-service:apm
+    image: friends-group-service:latest
     depends_on:
       - mongo
     environment:
