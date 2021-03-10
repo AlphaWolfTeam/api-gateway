@@ -33,5 +33,6 @@ module.exports = {
         json: 'never',
       },
     ],
+    'no-unused-vars': 0,
   },
 };
