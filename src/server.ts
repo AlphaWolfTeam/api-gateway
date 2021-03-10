@@ -1,3 +1,4 @@
+import * as apm from 'elastic-apm-node';
 import * as bodyParser from 'body-parser';
 import { once } from 'events';
 import * as express from 'express';
@@ -8,6 +9,7 @@ import userMiddleware from './middlewares/user.middleware';
 import proxyRouter from './routers/proxyRouter';
 import router from './routers/router';
 import errorMiddleware from './utils/error.middleware';
+import config from './config';
 
 export default class Server {
   app: express.Application;
@@ -23,6 +25,7 @@ export default class Server {
     this.env = env;
     this.app = express();
 
+    this.configureAPM();
     this.configureMiddleware();
     this.configureApiRoutes();
     this.configureErrorHandlers();
@@ -36,6 +39,17 @@ export default class Server {
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(userMiddleware);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  private configureAPM() {
+    apm.start({
+      serviceName: 'api-gateway',
+      secretToken: config.apm.secretToken,
+      serverUrl: config.apm.serverUrl,
+      active: config.apm.isActive === 'true',
+      environment: config.server.environment,
+    });
   }
 
   private configureApiRoutes() {
