@@ -24,13 +24,14 @@ module.exports = {
   },
   ignorePatterns: ['dist', 'data', 'node_modules'],
   rules: {
+    'linebreak-style': 0,
     'import/extensions': [
       'error',
       'ignorePackages',
       {
         js: 'never',
         ts: 'never',
-        json: 'never',
+        json: 'always',
       },
     ],
     'no-unused-vars': 0,
