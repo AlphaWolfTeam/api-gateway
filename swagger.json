@@ -2,22 +2,17 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "My User Project CRUD",
-    "description": "My User Project Application API",
-    "license": {
-      "name": "MIT",
-      "url": "https://opensource.org/licenses/MIT"
-    }
+    "title": "Friends API",
+    "description": "An API Gateway for **Friends**. \nAll requests require a Spike Oauth token using `code` grant-type. \nThe is enforced by using `Spike Proxy Service (Incoming)`."
   },
-  "host": "localhost:8000",
-  "basePath": "/",
   "tags": [
     {
-      "name": "Users",
+      "name": "Pet",
       "description": "API for users in the system"
     }
   ],
-  "schemes": ["http"],
+  "paths": {
+  },
   "consumes": ["application/json"],
   "produces": ["application/json"]
 }

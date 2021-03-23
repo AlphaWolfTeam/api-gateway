@@ -6,7 +6,7 @@ import * as helmet from 'helmet';
 import * as http from 'http';
 import * as logger from 'morgan';
 import * as swaggerUi from 'swagger-ui-express';
-import swaggerDocument from '../swagger.json';
+import * as swaggerDocument from '../swagger.json';
 import userMiddleware from './middlewares/user.middleware';
 import proxyRouter from './routers/proxyRouter';
 import router from './routers/router';
@@ -28,8 +28,8 @@ export default class Server {
     this.app = express();
 
     this.configureAPM();
-    this.configureSwagger();
     this.configureMiddleware();
+    this.configureSwagger();
     this.configureApiRoutes();
     this.configureErrorHandlers();
   }
