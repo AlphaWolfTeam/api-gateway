@@ -6,7 +6,7 @@ import * as helmet from 'helmet';
 import * as http from 'http';
 import * as logger from 'morgan';
 import * as swaggerUi from 'swagger-ui-express';
-import * as swaggerDocument from '../swagger.json';
+import swaggerDocument from './utils/swagger';
 import userMiddleware from './middlewares/user.middleware';
 import proxyRouter from './routers/proxyRouter';
 import router from './routers/router';
