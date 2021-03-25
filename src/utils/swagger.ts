@@ -22,17 +22,25 @@ const swaggerDocument = {
         summary: 'Search Group',
         parameters: [
           {
+            in: 'header',
+            name: 'X-User-ID',
+            type: 'string',
+            format: 'uuid',
+            description: '`requesterID` - the user ID of the requester. Required sometimes.',
+            required: true,
+          },
+          {
             in: 'query',
             name: 'partial',
             type: 'string',
-            description: 'A partial string to search by',
+            description: 'A partial string to search by.',
             required: true,
           },
           {
             in: 'query',
             name: 'type',
             type: 'string',
-            description: 'The type of the group. (`public` by default)',
+            description: 'The type of the group. (`public` by default).',
             required: false,
           },
         ],
@@ -42,7 +50,52 @@ const swaggerDocument = {
             schema: {
               type: 'array',
               items: {
-                $ref: '#/definitions/Group',
+                $ref: '#/definitions/Response',
+              },
+            },
+          },
+          400: {
+            description: 'Validation error',
+          },
+          401: {
+            description: 'Unauthorized',
+          },
+          500: {
+            description: 'Server side error',
+          },
+        },
+      },
+      post: {
+        tags: [
+          'Groups',
+        ],
+        summary: 'Create Group',
+        parameters: [
+          {
+            in: 'header',
+            name: 'X-User-ID',
+            type: 'string',
+            format: 'uuid',
+            description: '`requesterID` - the user ID of the requester.',
+            required: true,
+          },
+          {
+            in: 'body',
+            name: 'body',
+            schema: {
+              $ref: '#/definitions/Group',
+            },
+            description: '',
+            required: true,
+          },
+        ],
+        responses: {
+          200: {
+            description: 'OK',
+            schema: {
+              type: 'array',
+              items: {
+                $ref: '#/definitions/Response',
               },
             },
           },
@@ -74,11 +127,7 @@ const swaggerDocument = {
           format: 'base64',
         },
         type: {
-          type: 'string',
-          enum: [
-            'private',
-            'public',
-          ],
+          $ref: '#/definitions/Group-Type',
         },
         tags: {
           type: 'array',
@@ -100,21 +149,80 @@ const swaggerDocument = {
                 type: 'string',
               },
               role: {
+                $ref: '#/definitions/User-Role',
+              },
+            },
+          },
+        },
+      },
+    },
+    'Group-Type': {
+      type: 'string',
+      enum: [
+        'private',
+        'public',
+      ],
+    },
+    'User-Role': {
+      type: 'string',
+      enum: [
+        'Member',
+        'Modifier',
+        'Admin',
+      ],
+    },
+    Response: {
+      type: 'object',
+      properties: {
+        _id: {
+          type: 'string',
+          format: 'ObjectId',
+        },
+        name: {
+          type: 'string',
+        },
+        description: {
+          type: 'string',
+        },
+        icon: {
+          type: 'string',
+          format: 'base64',
+        },
+        type: {
+          $ref: '#/definitions/Group-Type',
+        },
+        tags: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              label: {
                 type: 'string',
-                enum: [
-                  'Member',
-                  'Modifier',
-                  'Admin',
-                ],
+              },
+            },
+          },
+        },
+        users: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: {
+                type: 'string',
+              },
+              role: {
+                $ref: '#/definitions/User-Role',
               },
             },
           },
         },
         modifiedBy: {
           type: 'string',
+          format: 'ObjectId',
         },
         createdBy: {
           type: 'string',
+          format: 'ObjectId',
         },
         exchangeAddress: {
           type: 'string',
@@ -129,6 +237,7 @@ const swaggerDocument = {
         },
       },
     },
+
   },
   consumes: [
     'application/json',
