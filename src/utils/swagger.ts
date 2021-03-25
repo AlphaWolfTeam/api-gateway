@@ -9,14 +9,6 @@ const swaggerDocument = {
     {
       name: 'Groups',
     },
-    {
-      name: 'User Header',
-      description: 'Most of the API endpoints require a `requesterID` - the user ID of the requester. The ID should be sent in a header (usually `X-User-ID`). Endpoints that do not always require a requester may return a Forbidden error in some cases where `requesterID` is necessary. Therefore sending a `requesterID` is always advised.',
-    },
-    {
-      name: 'Roles and Permissions',
-      description: "The endpoints that require a `requesterID` validate that the user has permission for the action he requested. The service finds the requester role in the group and then compares it with the required role for that action by the `requiredRole` found in this file. The requester must be in a group in order to make CRUD requests on it unless it's a GET on a public group.",
-    },
   ],
   paths: {
     '/groups': {
@@ -26,6 +18,13 @@ const swaggerDocument = {
         ],
         summary: 'Search Group',
         parameters: [
+          {
+            in: 'header',
+            name: 'scope',
+            type: 'string',
+            description: 'read',
+            required: true,
+          },
           {
             in: 'header',
             name: 'X-User-ID',
@@ -78,6 +77,13 @@ const swaggerDocument = {
         parameters: [
           {
             in: 'header',
+            name: 'scope',
+            type: 'string',
+            description: 'write',
+            required: true,
+          },
+          {
+            in: 'header',
             name: 'X-User-ID',
             type: 'string',
             format: 'uuid',
@@ -124,6 +130,13 @@ const swaggerDocument = {
         parameters: [
           {
             in: 'header',
+            name: 'scope',
+            type: 'string',
+            description: 'read',
+            required: true,
+          },
+          {
+            in: 'header',
             name: 'X-User-ID',
             type: 'string',
             format: 'uuid',
@@ -163,6 +176,13 @@ const swaggerDocument = {
         ],
         summary: 'Update Group',
         parameters: [
+          {
+            in: 'header',
+            name: 'scope',
+            type: 'string',
+            description: 'write',
+            required: true,
+          },
           {
             in: 'header',
             name: 'X-User-ID',
@@ -214,6 +234,13 @@ const swaggerDocument = {
         parameters: [
           {
             in: 'header',
+            name: 'scope',
+            type: 'string',
+            description: 'write',
+            required: true,
+          },
+          {
+            in: 'header',
             name: 'X-User-ID',
             type: 'string',
             format: 'uuid',
@@ -230,6 +257,300 @@ const swaggerDocument = {
         ],
         responses: {
           200: {
+            description: ' OK',
+            schema: {
+              type: 'object',
+              properties: {
+                _id: {
+                  type: 'string',
+                  format: 'ObjectId',
+                },
+              },
+            },
+          },
+          400: {
+            description: 'Validation error',
+          },
+          401: {
+            description: 'Unauthorized',
+          },
+          500: {
+            description: 'Server side error',
+          },
+        },
+      },
+    },
+    '/groups/{id}/tags/{label}': {
+      put: {
+        tags: [
+          'Groups',
+        ],
+        summary: 'Add tag to group',
+        parameters: [
+          {
+            in: 'header',
+            name: 'scope',
+            type: 'string',
+            description: 'write',
+            required: true,
+          },
+          {
+            in: 'header',
+            name: 'X-User-ID',
+            type: 'string',
+            format: 'uuid',
+            description: '`requesterID` - the user ID of the requester.',
+            required: true,
+          },
+          {
+            in: 'path',
+            name: 'id',
+            type: 'string',
+            description: 'The id of the group',
+            required: true,
+          },
+          {
+            in: 'path',
+            name: 'label',
+            type: 'string',
+            description: 'The label to add',
+            required: true,
+          },
+        ],
+        responses: {
+          200: {
+            description: 'OK',
+          },
+          400: {
+            description: 'Validation error',
+          },
+          401: {
+            description: 'Unauthorized',
+          },
+          500: {
+            description: 'Server side error',
+          },
+        },
+      },
+      delete: {
+        tags: [
+          'Groups',
+        ],
+        summary: 'Remove tag from group',
+        parameters: [
+          {
+            in: 'header',
+            name: 'scope',
+            type: 'string',
+            description: 'write',
+            required: true,
+          },
+          {
+            in: 'header',
+            name: 'X-User-ID',
+            type: 'string',
+            format: 'uuid',
+            description: '`requesterID` - the user ID of the requester.',
+            required: true,
+          },
+          {
+            in: 'path',
+            name: 'id',
+            type: 'string',
+            description: 'The id of the group',
+            required: true,
+          },
+          {
+            in: 'path',
+            name: 'label',
+            type: 'string',
+            description: 'The label to remove',
+            required: true,
+          },
+        ],
+        responses: {
+          200: {
+            description: 'OK',
+          },
+          400: {
+            description: 'Validation error',
+          },
+          401: {
+            description: 'Unauthorized',
+          },
+          500: {
+            description: 'Server side error',
+          },
+        },
+      },
+    },
+    '/groups/{id}/users': {
+      post: {
+        tags: [
+          'Groups',
+        ],
+        summary: 'Add user to group',
+        parameters: [
+          {
+            in: 'header',
+            name: 'scope',
+            type: 'string',
+            description: 'write',
+            required: true,
+          },
+          {
+            in: 'header',
+            name: 'X-User-ID',
+            type: 'string',
+            format: 'uuid',
+            description: '`requesterID` - the user ID of the requester.',
+            required: true,
+          },
+          {
+            in: 'path',
+            name: 'id',
+            type: 'string',
+            description: 'The id of the group',
+            required: true,
+          },
+          {
+            in: 'body',
+            name: 'body',
+            description: 'Role is optional',
+            schema: {
+              type: 'object',
+              properties: {
+                id: {
+                  type: 'string',
+                  format: 'ObjectId',
+                },
+                role: {
+                  $ref: '#/definitions/User-Role',
+                },
+              },
+            },
+            required: true,
+          },
+        ],
+        responses: {
+          200: {
+            description: 'OK',
+          },
+          400: {
+            description: 'Validation error',
+          },
+          401: {
+            description: 'Unauthorized',
+          },
+          500: {
+            description: 'Server side error',
+          },
+        },
+      },
+    },
+    '/groups/{groupId}/users/{userId}': {
+      patch: {
+        tags: [
+          'Groups',
+        ],
+        summary: 'Update user role in group',
+        parameters: [
+          {
+            in: 'header',
+            name: 'scope',
+            type: 'string',
+            description: 'write',
+            required: true,
+          },
+          {
+            in: 'header',
+            name: 'X-User-ID',
+            type: 'string',
+            format: 'uuid',
+            description: '`requesterID` - the user ID of the requester.',
+            required: true,
+          },
+          {
+            in: 'path',
+            name: 'groupId',
+            type: 'string',
+            description: 'The id of the group',
+            required: true,
+          },
+          {
+            in: 'path',
+            name: 'userId',
+            type: 'string',
+            description: 'The id of the user to update',
+            required: true,
+          },
+          {
+            in: 'body',
+            name: 'body',
+            schema: {
+              type: 'object',
+              properties: {
+                role: {
+                  $ref: '#/definitions/User-Role',
+                },
+              },
+            },
+            required: true,
+          },
+        ],
+        responses: {
+          200: {
+            description: 'OK',
+          },
+          400: {
+            description: 'Validation error',
+          },
+          401: {
+            description: 'Unauthorized',
+          },
+          500: {
+            description: 'Server side error',
+          },
+        },
+      },
+      delete: {
+        tags: [
+          'Groups',
+        ],
+        summary: 'Remove user from group',
+        parameters: [
+          {
+            in: 'header',
+            name: 'scope',
+            type: 'string',
+            description: 'write',
+            required: true,
+          },
+          {
+            in: 'header',
+            name: 'X-User-ID',
+            type: 'string',
+            format: 'uuid',
+            description: '`requesterID` - the user ID of the requester.',
+            required: true,
+          },
+          {
+            in: 'path',
+            name: 'groupId',
+            type: 'string',
+            description: 'The id of the group',
+            required: true,
+          },
+          {
+            in: 'path',
+            name: 'userId',
+            type: 'string',
+            description: 'The id of the user to update',
+            required: true,
+          },
+        ],
+        responses: {
+          200: {
             description: 'OK',
             schema: {
               type: 'object',
@@ -238,6 +559,58 @@ const swaggerDocument = {
                   type: 'string',
                   format: 'ObjectId',
                 },
+              },
+            },
+          },
+          400: {
+            description: 'Validation error',
+          },
+          401: {
+            description: 'Unauthorized',
+          },
+          500: {
+            description: 'Server side error',
+          },
+        },
+      },
+    },
+    '/users/{id}/groups': {
+      get: {
+        tags: [
+          'Groups',
+        ],
+        summary: 'Get groups of user',
+        parameters: [
+          {
+            in: 'header',
+            name: 'scope',
+            type: 'string',
+            description: 'read',
+            required: true,
+          },
+          {
+            in: 'header',
+            name: 'X-User-ID',
+            type: 'string',
+            format: 'uuid',
+            description: "`requesterID` - the user ID of the requester. \nRequired sometimes.\nThe requester must be in a group in order to make request on it unless it's a public group.",
+            required: true,
+          },
+          {
+            in: 'path',
+            name: 'id',
+            type: 'string',
+            description: 'The id of the user',
+            required: true,
+          },
+        ],
+        responses: {
+          200: {
+            description: 'OK',
+            schema: {
+              type: 'array',
+              items: {
+                $ref: '#/definitions/Group-Primal',
               },
             },
           },
@@ -324,11 +697,12 @@ const swaggerDocument = {
       ],
     },
     'User-Role': {
-      type: 'string',
+      description: 'Member- 0, Modifier- 1, Admin- 2',
+      type: 'number',
       enum: [
-        'Member',
-        'Modifier',
-        'Admin',
+        0,
+        1,
+        2,
       ],
     },
     'Group-Primal': {
