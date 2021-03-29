@@ -5,6 +5,8 @@ import * as express from 'express';
 import * as helmet from 'helmet';
 import * as http from 'http';
 import * as logger from 'morgan';
+import * as swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './utils/swagger';
 import userMiddleware from './middlewares/user.middleware';
 import proxyRouter from './routers/proxyRouter';
 import router from './routers/router';
@@ -27,6 +29,7 @@ export default class Server {
 
     this.configureAPM();
     this.configureMiddleware();
+    this.configureSwagger();
     this.configureApiRoutes();
     this.configureErrorHandlers();
   }
@@ -50,6 +53,10 @@ export default class Server {
       active: config.apm.isActive === 'true',
       environment: config.server.environment,
     });
+  }
+
+  private configureSwagger() {
+    this.app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
   }
 
   private configureApiRoutes() {
