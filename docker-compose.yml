@@ -3,7 +3,8 @@ version: '3.4'
 services:
 
   friends-api:
-    image: friends-api:latest
+    # image: friends-api:latest
+    build: ./
     depends_on:
       - user-service
       - group-service
@@ -18,7 +19,7 @@ services:
 
 
   user-service:
-    image: friends-user-service:latest
+    image: alphawolfsforce/friends-user-service:develop
     depends_on:
       - outgoing-proxy-service
     environment:
@@ -30,7 +31,7 @@ services:
       - 8001:8000
 
   group-service:
-    image: friends-group-service:latest
+    image: alphawolfsforce/group-service:develop
     depends_on:
       - mongo
     environment:
@@ -56,7 +57,7 @@ services:
       - 6379:6379
 
   outgoing-proxy-service:
-    image: spike-proxy-service-master
+    image: alphawolfsforce/friends-spike-proxy-service:develop
     environment:
       MODE: outgoing
       PORT: 8000
@@ -73,7 +74,7 @@ services:
       - 8003:8000
 
   incoming-spike-proxy:
-    image: spike-proxy-service-master
+    image: alphawolfsforce/friends-spike-proxy-service:develop
     environment: 
       MODE: incoming
       PORT: 8000
